@@ -57,8 +57,9 @@ module.exports = {
 
         const message = await userDM.send({ embeds: [embed] });
         interaction.reply({ content: `Premium link dispensed! Make sure your DMs are open to receive the link. [[Jump to Message]   ](${message.url})`, ephemeral: true });
-
-        const logchannel = interaction.guild.channels.cache.get(config.links.log_channel);
+        const logchannel = interaction.client.guilds.cache
+          .map(guild => guild.channels.cache.get(config.links.log_channel))
+          .find(channel => channel);
         const logembed = new EmbedBuilder()
         .setTitle("Domain Dispensed!")
         .setAuthor({ name: `${interaction.user.username}`, iconURL: interaction.user.displayAvatarURL() })
