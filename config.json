@@ -16,15 +16,16 @@
       "premium": "./links/premium.txt",
       "premium_role_id":"",
       "premium_cooldown_hours": 1,
-      "free_cooldown_hours": 8
+      "free_cooldown_hours": 8,
+      "log_channel": ""
     },
     "embed": {
       "color": "#6B52A3",
-      "description": "Dispense a link for Shadow Browser here! \n**Cooldown (Free):** 8 hour\n**Cooldown (Premium):** 1 hour\n**Uses (ALL):** Unlimited \n\n**Note:** DO NOT report your link soley because it is blocked. Report if there is an error that occurs while loading the site such as a 404. ",
+      "description": "",
       "title": "Link Dispenser",
-      "img": "https://cdn.discordapp.com/app-assets/1177845637765668864/store/1185027490582892654.webp?size=480",
+      "img": "",
       "footer": {
-        "text": "Shadow Dispenser",
+        "text": "",
         "iconURL": ""
       }
     },
