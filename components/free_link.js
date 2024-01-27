@@ -31,22 +31,37 @@ module.exports = {
       if (freeLink) {
         freeLink.userHistory.push(userId);
         await freeLink.save();
-
         cooldowns.set(cooldownKey, Date.now());
 
+        let displayLink = freeLink.url.replace(/\s+/g, ''); 
+
+        if (!displayLink.includes('https')) {
+          displayLink = 'https://' + displayLink; 
+        }
+        
         const userDM = await interaction.user.createDM();
         const embed = new EmbedBuilder()
           .setTitle(config.embed.title)
           .setColor(config.embed.color)
           .addFields(
-            { name: 'Accessed Domain', value: `https://${freeLink.url}` },
-            { name: 'Cooldown', value: `${config.links.free_cooldown_hours}h`}
+            { name: 'Accessed Domain', value: "```" + `${displayLink}` + "```" },
+            { name: 'Cooldown', value: "```" + `${config.links.free_cooldown_hours}h` + "```"}
           )
           .setFooter({text: config.embed.footer.text, iconURL: config.embed.footer.iconURL});
 
         const message = await userDM.send({ embeds: [embed] });
 
         interaction.reply({ content: `Free link dispensed! Make sure your DMs are open to receive the link. [[Jump to Message]](${message.url})`, ephemeral: true });
+        const logchannel = interaction.guild.channels.cache.get(config.links.log_channel);
+        const logembed = new EmbedBuilder()
+        .setTitle("Domain Dispensed!")
+        .setAuthor({ name: `${interaction.user.username}`, iconURL: interaction.user.displayAvatarURL() })
+        .setColor(config.embed.color)
+        .addFields(
+          { name: 'Link', value: "```" + `${displayLink}`+ "```" },
+          { name: 'Type', value: "```Free```"}
+        )
+        logchannel.send({embeds: [logembed]})
       } else {
         interaction.reply({ content: 'No more free links available for you.', ephemeral: true });
       }
